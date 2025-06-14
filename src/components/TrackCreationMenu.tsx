@@ -15,7 +15,7 @@ export const TrackCreationMenu: React.FC<TrackCreationMenuProps> = ({ onSelect }
         ? {
             volume: 1,
             pan: 0,
-            sampleUrl: '', // TODO: Add default sample
+            sampleUrl: '/Kick Basic.wav', // Default sample
             pitch: 0,
           }
         : {

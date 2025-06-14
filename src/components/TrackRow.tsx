@@ -6,6 +6,7 @@ interface TrackRowProps {
   dimensions: SequencerDimensions;
   currentStep: number;
   onTrackUpdate: (updates: Partial<Track>) => void;
+  onShowSettings: () => void;
 }
 
 export const TrackRow: React.FC<TrackRowProps> = ({
@@ -13,6 +14,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
   dimensions,
   currentStep,
   onTrackUpdate,
+  onShowSettings,
 }) => {
   return (
     <>
@@ -53,7 +55,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
           S
         </button>
         <button
-          onClick={() => {/* TODO: Open instrument settings modal */}}
+          onClick={onShowSettings}
           style={{
             backgroundColor: '#444',
             border: 'none',

@@ -4,6 +4,7 @@ import TrackRow from './TrackRow';
 import SongControls from './SongControls';
 import TrackCreationMenu from './TrackCreationMenu';
 import { useSequencer } from '../hooks/useSequencer';
+import InstrumentSettingsModal from './InstrumentSettingsModal';
 
 interface SequencerProps {
   song: Song;
@@ -23,6 +24,7 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
   const [showTrackMenu, setShowTrackMenu] = useState(false);
   const addButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [settingsTrackId, setSettingsTrackId] = useState<string | null>(null);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -148,10 +150,21 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
                   t.id === track.id ? { ...t, ...updates } : t
                 )
               })}
+              onShowSettings={() => setSettingsTrackId(track.id)}
             />
           ))}
         </div>
       </div>
+
+      {settingsTrackId && (
+        <InstrumentSettingsModal
+          track={song.tracks.find(t => t.id === settingsTrackId)!}
+          onUpdate={(updates) => onSongUpdate({
+            tracks: song.tracks.map(t => t.id === settingsTrackId ? { ...t, ...updates } : t)
+          })}
+          onClose={() => setSettingsTrackId(null)}
+        />
+      )}
     </div>
   );
 };

@@ -138,6 +138,12 @@ export const useAudioEngine = () => {
         nodes = { oscillator, gainNode } as AudioNodes;
       }
       engine.trackNodes.set(trackId, nodes);
+    } else {
+      // Update existing nodes with latest settings – avoid sudden gain jump
+      if (track.instrumentType === 'synthesizer' && nodes.oscillator) {
+        const s = track.settings as any;
+        nodes.oscillator.type = s.waveform;
+      }
     }
 
     return nodes;
@@ -233,7 +239,13 @@ export const useAudioEngine = () => {
         oscillator.frequency.setTargetAtTime(frequency, event.startTime, 0.005);
       }
 
-      applyGainEnvelope(gainNode.gain, event.startTime, event.duration, velocityGain);
+      const trackVolume = (event.track.settings as any).volume ?? 1;
+      applyGainEnvelope(
+        gainNode.gain,
+        event.startTime,
+        event.duration,
+        velocityGain * trackVolume,
+      );
     }
 
     // Store reference to scheduled note

@@ -36,12 +36,12 @@ export const TEST_SYNTH_TRACK: Track = {
 
 export const TEST_SAMPLER_TRACK: Track = {
   id: 'test-sampler-1',
-  name: '808 Kick',
+  name: 'Kick',
   instrumentType: 'sampler',
   settings: {
     volume: 1,
     pan: 0,
-    sampleUrl: '/808.wav',
+    sampleUrl: '/Kick Basic.wav',
     pitch: 0,
   },
   sequence: KICK_PATTERN,
