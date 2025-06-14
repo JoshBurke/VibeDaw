@@ -18,6 +18,11 @@ export const TrackRow: React.FC<TrackRowProps> = ({
   onShowSettings,
   onDelete,
 }) => {
+  // Determine pitch range for synth visualisation
+  const pitches = track.sequence.map(n => n.pitch);
+  const minPitch = pitches.length ? Math.min(...pitches) : 0;
+  const maxPitch = pitches.length ? Math.max(...pitches) : 127;
+
   return (
     <>
       {/* Track Header */}
@@ -86,7 +91,8 @@ export const TrackRow: React.FC<TrackRowProps> = ({
 
       {/* Track Steps */}
       {Array.from({ length: dimensions.totalSteps }).map((_, step) => {
-        const hasNote = track.sequence.some(note => note.step === step);
+        const noteForStep = track.sequence.find(n => n.step === step);
+        const hasNote = Boolean(noteForStep);
         const isCurrentStep = step === currentStep;
         const handleCellClick = () => {
           if (track.instrumentType !== 'sampler') return;
@@ -115,13 +121,21 @@ export const TrackRow: React.FC<TrackRowProps> = ({
             onClick={handleCellClick}
           >
             {hasNote && (
-              <div
-                style={{
-                  width: '80%',
-                  height: '80%',
-                  backgroundColor: track.color || '#666',
-                }}
-              />
+              track.instrumentType === 'sampler' ? (
+                <div style={{ width: '80%', height: '80%', backgroundColor: track.color || '#666' }} />
+              ) : (
+                // Synth visual: thin horizontal line at pitch-relative height
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <div style={{
+                    position: 'absolute',
+                    left: '10%',
+                    right: '10%',
+                    height: '2px',
+                    backgroundColor: track.color || '#ccc',
+                    top: `${maxPitch === minPitch ? 50 : 100 - ((noteForStep!.pitch - minPitch) / (maxPitch - minPitch)) * 100}%`,
+                  }} />
+                </div>
+              )
             )}
           </div>
         );
