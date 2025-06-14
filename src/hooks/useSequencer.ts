@@ -26,8 +26,11 @@ export const useSequencer = (song: Song) => {
     
     // Schedule notes for the first step immediately
     const startTime = audioEngine.getCurrentTime() + 0.1; // Small delay to ensure context is ready
-    song.tracks.forEach(track => {
-      if (track.mute) return;
+    const soloTracks = song.tracks.filter(t => t.solo);
+    const activeTracks = soloTracks.length ? soloTracks : song.tracks;
+
+    activeTracks.forEach(track => {
+      if (track.mute && !soloTracks.length) return; // mute only respected if no solo
 
       const notesAtStep = track.sequence.filter(note => note.step === 0);
       console.log('Initial step notes:', {
@@ -96,8 +99,11 @@ export const useSequencer = (song: Song) => {
 
         // Schedule notes for the next step
         const startTime = audioEngine.getCurrentTime() + stepDuration; // Schedule slightly ahead
-        song.tracks.forEach(track => {
-          if (track.mute) return;
+        const soloTracks = song.tracks.filter(t => t.solo);
+        const activeTracks = soloTracks.length ? soloTracks : song.tracks;
+
+        activeTracks.forEach(track => {
+          if (track.mute && !soloTracks.length) return; // mute only respected if no solo
 
           const notesAtStep = track.sequence.filter(note => note.step === nextStep);
         //   console.log('Notes at step:', {

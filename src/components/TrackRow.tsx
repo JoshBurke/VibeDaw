@@ -7,6 +7,7 @@ interface TrackRowProps {
   currentStep: number;
   onTrackUpdate: (updates: Partial<Track>) => void;
   onShowSettings: () => void;
+  onDelete: () => void;
 }
 
 export const TrackRow: React.FC<TrackRowProps> = ({
@@ -15,6 +16,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
   currentStep,
   onTrackUpdate,
   onShowSettings,
+  onDelete,
 }) => {
   return (
     <>
@@ -24,7 +26,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
         padding: '10px',
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
+        gap: '1px',
         position: 'sticky',
         maxHeight: '60px',
         left: 0,
@@ -37,7 +39,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
           style={{
             backgroundColor: track.mute ? '#ff4444' : '#444',
             border: 'none',
-            padding: '4px 8px',
+            padding: '4px 4px',
             color: 'white',
             cursor: 'pointer',
           }}
@@ -49,7 +51,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
           style={{
             backgroundColor: track.solo ? '#44ff44' : '#444',
             border: 'none',
-            padding: '4px 8px',
+            padding: '4px 4px',
             color: 'white',
             cursor: 'pointer',
           }}
@@ -61,12 +63,24 @@ export const TrackRow: React.FC<TrackRowProps> = ({
           style={{
             backgroundColor: '#444',
             border: 'none',
-            padding: '4px 8px',
+            padding: '4px 4px',
             color: 'white',
             cursor: 'pointer',
           }}
         >
           ⚙️
+        </button>
+        <button
+          onClick={onDelete}
+          style={{
+            backgroundColor: '#ff5555',
+            border: 'none',
+            padding: '4px 4px',
+            color: 'white',
+            cursor: 'pointer',
+          }}
+        >
+          🗑️
         </button>
       </div>
 

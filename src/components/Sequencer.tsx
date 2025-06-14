@@ -161,6 +161,7 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
                 )
               })}
               onShowSettings={() => setSettingsTrackId(track.id)}
+              onDelete={() => onSongUpdate({ tracks: song.tracks.filter(t => t.id !== track.id) })}
             />
           ))}
         </div>
