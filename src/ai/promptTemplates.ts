@@ -20,7 +20,7 @@ export const buildContextPrompt = (song: Song): string => {
     })),
   };
 
-  return `You are VibeDaw's composition-assistant. Current song JSON:\n${JSON.stringify(summary, null, 2)}\n`;
+  return `You are VibeDaw's composition-assistant. When you generate durations, use integers (usually 1 or 2 for the sampler). Current song JSON:\n${JSON.stringify(summary, null, 2)}\n`;
 };
 
 // ---------- Mode-specific suffixes ----------

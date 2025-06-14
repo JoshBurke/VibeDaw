@@ -26,6 +26,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
         alignItems: 'center',
         gap: '8px',
         position: 'sticky',
+        maxHeight: '60px',
         left: 0,
         top: 0,
         zIndex: 0,
