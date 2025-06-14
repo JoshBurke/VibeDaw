@@ -1,120 +1,51 @@
-# VibeDaw
+# VibeDaw  
 
-A web DAW that lets you prompt patterns and instruments with AI.
+A web-based digital-audio-workstation (DAW) that lets you sequence drums & synths directly in the browser **and** call AI (Anthropic Claude) to generate new instruments or full tracks on the fly.
 
-## Overview
+---
 
-VibeDaw is a web-based Digital Audio Workstation that combines traditional sequencing capabilities with AI-powered pattern and instrument generation. The system is designed to be simple yet powerful, with a focus on intuitive pattern creation and AI-assisted composition.
+## ✨ Features
 
-## Core Concepts
+* Step-sequencer (64-step / 4-bar grid)
+* Sampler & basic synthesiser engines (Web Audio)
+* Click-to-edit drum steps; coloured tracks; per-track mute/solo/Delete
+* Smooth looping + pop-free envelopes & master compressor
+* AI prompt workflow – generate a brand-new track with natural-language (via Anthropic API)
+  * Song context, style, mood & available drum samples are sent in the prompt
+* Instrument settings modal (volume / pan / waveform / sample selector)
 
-### Song Structure
-```typescript
-interface Song {
-  id: string;
-  name: string;
-  tempo: number;  // BPM
-  tracks: Track[];
-  metadata: {
-    createdAt: Date;
-    updatedAt: Date;
-    // Additional metadata for AI context
-  };
-}
+---
+
+## 🚀 Install & Run
+
+```bash
+# 1. clone & install
+git clone https://github.com/joshburke/vibedaw.git
+cd vibedaw
+npm install            # or pnpm / yarn
+
+# 2. provide Anthropic key (Claude)
+cp .env.example .env   # then edit .env
+#   .env   →  ANTHROPIC_API_KEY=sk-...
+
+# 3. start dev server
+npm run dev            # Vite dev server with proxy → http://localhost:5173
 ```
 
-### Track System
-```typescript
-interface Track {
-  id: string;
-  name: string;
-  instrument: Instrument;
-  sequence: Note[];
-  volume: number;
-  pan: number;
-  mute: boolean;
-  solo: boolean;
-}
+`vite.config.ts` exposes a **dev-only proxy** so the browser calls `/api/anthropic`; Vite forwards it to `https://api.anthropic.com` and injects the secret header.  In production you should proxy through your own backend or serverless function.
 
-interface Note {
-  step: number;      // Position in sequence (1/16th note resolution)
-  pitch: number;     // MIDI note number
-  velocity: number;  // 0-127
-  duration: number;  // In steps (1/16th notes)
-}
-```
+---
 
-### Instrument Types
-```typescript
-interface Instrument {
-  id: string;
-  name: string;
-  type: 'sampler' | 'synthesizer';
-  settings: SamplerSettings | SynthSettings;
-}
+## 🔮 Future extensions
 
-interface SamplerSettings {
-  sampleUrl: string;
-  pitch: number;     // Pitch adjustment in semitones
-  attack: number;    // In seconds
-  release: number;   // In seconds
-}
+| Idea | Notes |
+| --- | --- |
+| Prompt to *edit* sequences | Re-use the prompt pipeline in *sequence* mode so users can say "make this bassline more syncopated". |
+| More instrument parameters | Filter envelope, LFOs, reverb, etc. Expose in settings modal & pass to AI prompts. |
+| Filter-/FX-chaining | Per-track Web Audio node chains (e.g. drive → eq → delay). Allow drag-to-re-order & save in song JSON. |
 
-interface SynthSettings {
-  waveform: 'sine' | 'square' | 'sawtooth' | 'triangle';
-  attack: number;    // In seconds
-  decay: number;     // In seconds
-  sustain: number;   // 0-1
-  release: number;   // In seconds
-  filterCutoff: number;
-  filterResonance: number;
-}
-```
+---
 
-## Runtime Architecture
+## 📄 License
 
-The DAW operates on a step-based sequencer system:
-- All sequences are quantized to 1/16th note steps
-- The runtime maintains a current step position
-- On each step:
-  1. All notes starting at the current step are triggered
-  2. Note durations are scheduled using the Web Audio API
-  3. The sequencer advances to the next step based on the tempo
-
-## AI Integration
-
-The system supports AI-assisted generation for:
-- Instrument creation and parameter optimization
-- Pattern generation based on existing musical context
-- Full track generation with multiple instruments
-- Style transfer and variation generation
-
-Example prompts:
-- "Add a basic hi-hat sequence with triplet fills"
-- "Generate a melodic lead synth that complements the existing chord progression"
-- "Create a new track with a bass line that follows the current rhythm"
-
-## Data Persistence
-
-Songs can be exported/imported as JSON for easy sharing and version control. The format includes all necessary data to reconstruct the complete song state.
-
-## Technical Implementation
-
-- Built with TypeScript and React
-- Uses Web Audio API for sound generation
-- Implements a custom sequencer engine
-- Integrates with AI models for pattern generation
-
-## Getting Started
-
-[Coming soon]
-
-## Development Roadmap
-
-1. Core sequencer implementation
-2. Basic instrument types (sampler and synthesizer)
-3. Pattern editing interface
-4. AI integration for pattern generation
-5. Advanced instrument controls
-6. Export/import functionality
-7. Collaborative features
+MIT License — free to use, modify & distribute.  See [LICENSE](LICENSE) for full text.
