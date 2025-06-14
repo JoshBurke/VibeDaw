@@ -1,9 +1,29 @@
 import './App.css'
+import { Sequencer } from './components/Sequencer'
+import type { Song } from './types';
+import { useState } from 'react';
 
 function App() {
+  const [song, setSong] = useState<Song>({
+    id: '1',
+    name: 'My Song',
+    tempo: 120,
+    style: 'electronic',
+    mood: 'happy',
+    tracks: [],
+    metadata: {
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  });
+
+  const handleSongUpdate = (updates: Partial<Song>) => {
+    setSong(prev => ({ ...prev, ...updates }));
+  };
+
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <Sequencer song={song} onSongUpdate={handleSongUpdate} />
     </>
   )
 }
