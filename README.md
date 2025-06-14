@@ -1,5 +1,7 @@
 # VibeDaw  
 
+![VibeDaw screenshot](./screenshot.png)
+
 A web-based digital-audio-workstation (DAW) that lets you sequence drums & synths directly in the browser **and** call AI (Anthropic Claude) to generate new instruments or full tracks on the fly.
 
 ---
