@@ -15,6 +15,8 @@ export const useSequencer = (song: Song) => {
   // - One 16th note = 0.5/4 = 0.125 seconds
   const stepDuration = (60 / song.tempo) / 4;
 
+  const totalSteps = 64; // 4 bars of 16 steps
+
   const play = useCallback(async () => {
     console.log('Starting playback...');
     // Ensure audio context is running
@@ -72,14 +74,22 @@ export const useSequencer = (song: Song) => {
       const elapsed = (timestamp - lastStepTimeRef.current) / 1000; // Convert to seconds
       
       if (elapsed >= stepDuration) {
-        const nextStep = (currentStep + 1) % 64; // 64 steps (4 bars of 16 steps)
-        // console.log('Step update:', {
-        //   currentStep,
-        //   nextStep,
-        //   elapsed,
-        //   stepDuration,
-        //   timestamp
-        // });
+        let nextStep = (currentStep + 1) % totalSteps;
+
+        // Early-loop logic: if we'll land at a bar boundary (multiple of 16)
+        // and there are no notes past that boundary, restart from 0.
+        if (nextStep % 16 === 0) {
+          const futureHasNotes = song.tracks.some(track => {
+            if (track.mute) return false;
+            return track.sequence.some(note => note.step >= nextStep);
+          });
+
+          if (!futureHasNotes) {
+            nextStep = 0;
+            // Clear any lingering scheduled notes from previous loop
+            audioEngine.clearScheduledNotes();
+          }
+        }
         
         setCurrentStep(nextStep);
         lastStepTimeRef.current = timestamp;

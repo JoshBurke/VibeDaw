@@ -62,7 +62,7 @@ export const TrackCreationMenu: React.FC<TrackCreationMenuProps> = ({ onSelect, 
   };
 
   return (
-    <div style={{ position: 'absolute', backgroundColor: '#2a2a2a', border: '1px solid #444', padding: '8px', zIndex: 1000 }}>
+    <div style={{ position: 'absolute', backgroundColor: '#2a2a2a', border: '1px solid #444', padding: '8px', zIndex: 1000, minWidth: '300px' }}>
       {stage === 'choose' && (
         <>
           <button onClick={() => handleSelect('sampler')} style={btnStyle}>Sampler</button>
