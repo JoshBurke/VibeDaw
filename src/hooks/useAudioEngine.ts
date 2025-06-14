@@ -183,7 +183,6 @@ export const useAudioEngine = () => {
     // });
 
     const nodes = await getTrackNodes(event.trackId, event.track);
-    const { gainNode } = nodes;
 
     const velocityGain = event.note.velocity / 127;
 
