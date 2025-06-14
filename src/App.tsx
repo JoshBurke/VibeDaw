@@ -9,6 +9,7 @@ function App() {
 
   return (
     <div className="App">
+      <img src="/logo.png" alt="VibeDaw Logo" className="w-100 pl-5"/>
       <Sequencer
         song={song}
         onSongUpdate={(updates) => setSong(prev => ({ ...prev, ...updates }))}

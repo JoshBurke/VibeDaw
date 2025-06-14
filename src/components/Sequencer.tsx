@@ -49,7 +49,7 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
       name: options.name,
       instrumentType: options.instrumentType,
       settings: options.settings,
-      sequence: [],
+      sequence: options.sequence ?? [],
       mute: false,
       solo: false,
     };
@@ -121,6 +121,7 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
               <div ref={menuRef} style={{ position: 'absolute', top: '100%', left: 0, zIndex: 1000 }}>
                 <TrackCreationMenu
                   onSelect={handleAddTrack}
+                  song={song}
                 />
               </div>
             )}

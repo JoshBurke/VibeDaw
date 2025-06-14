@@ -151,4 +151,5 @@ export interface TrackCreationOptions {
   name: string;
   instrumentType: InstrumentType;
   settings: SamplerSettings | SynthSettings;
+  sequence?: Note[];
 } 
