@@ -63,3 +63,16 @@ export const TEST_SONG: Song = {
     updatedAt: new Date(),
   },
 }; 
+
+export const EMPTY_SONG: Song = {
+  id: 'empty-song-1',
+  name: 'Empty Song',
+  tempo: 120,
+  style: 'electronic',
+  mood: 'energetic',
+  tracks: [],
+  metadata: {
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+};
