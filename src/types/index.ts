@@ -59,6 +59,14 @@ export interface AudioNodeRefs {
   gainNode: GainNode;
 }
 
+// Updated, more flexible structure
+export interface AudioNodes {
+  gainNode: GainNode;
+  oscillator?: OscillatorNode;
+  currentSource?: AudioBufferSourceNode;
+  currentGain?: GainNode;
+}
+
 // Runtime types
 export interface SequencerState {
   currentStep: number;
@@ -113,7 +121,8 @@ export type SequencerAction =
 export interface AudioEngine {
   context: AudioContext;
   masterGain: GainNode;
-  trackNodes: Map<string, AudioNodeRefs>;
+  compressor: DynamicsCompressorNode;
+  trackNodes: Map<string, AudioNodes>;
 }
 
 export interface AudioNoteEvent {
@@ -121,12 +130,17 @@ export interface AudioNoteEvent {
   note: Note;
   startTime: number;
   duration: number;
+  track: Track;
 }
 
 export interface AudioScheduler {
-  scheduleNote: (event: AudioNoteEvent) => void;
+  scheduleNote: (event: AudioNoteEvent) => Promise<void>;
   cancelNote: (trackId: string, step: number) => void;
   clearScheduledNotes: () => void;
+  getTrackNodes: (trackId: string, track: Track) => Promise<AudioNodes>;
+  resume: () => Promise<void>;
+  getCurrentTime: () => number;
+  preloadTrackSamples: (track: Track) => Promise<void>;
 }
 
 // Track Creation Types

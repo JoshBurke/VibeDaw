@@ -25,7 +25,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
         gap: '8px',
         position: 'sticky',
         left: 0,
-        zIndex: 1,
+        zIndex: 0,
       }}>
         <div style={{ flex: 1 }}>{track.name}</div>
         <button

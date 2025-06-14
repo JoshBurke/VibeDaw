@@ -110,6 +110,7 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
                 color: 'white',
                 cursor: 'pointer',
                 width: '100%',
+                zIndex: 1000,
               }}
             >
               + Add Track
