@@ -8,7 +8,7 @@ function App() {
   const [song, setSong] = useState<Song>(TEST_SONG);
 
   return (
-    <div className="App">
+    <div className="App max-w-screen">
       <img src="/logo.png" alt="VibeDaw Logo" className="w-100 pl-5"/>
       <Sequencer
         song={song}

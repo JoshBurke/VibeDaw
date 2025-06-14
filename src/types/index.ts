@@ -38,6 +38,7 @@ export interface Track {
   sequence: Note[];
   mute: boolean;
   solo: boolean;
+  color?: string;
 }
 
 export interface Song {

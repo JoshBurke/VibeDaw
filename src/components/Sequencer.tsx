@@ -5,6 +5,7 @@ import SongControls from './SongControls';
 import TrackCreationMenu from './TrackCreationMenu';
 import { useSequencer } from '../hooks/useSequencer';
 import InstrumentSettingsModal from './InstrumentSettingsModal';
+import { randomColor } from '../utils/colors';
 
 interface SequencerProps {
   song: Song;
@@ -52,6 +53,7 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
       sequence: options.sequence ?? [],
       mute: false,
       solo: false,
+      color: randomColor(),
     };
 
     onSongUpdate({
@@ -65,9 +67,11 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
       backgroundColor: '#1a1a1a',
       color: '#ffffff',
       padding: '20px',
-      height: '100vh',
+      height: '80vh',
       display: 'flex',
       flexDirection: 'column',
+      width: '100%',
+      overflow: 'hidden',
     }}>
       <SongControls
         song={song}
@@ -83,12 +87,13 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
         overflow: 'auto',
         marginTop: '20px',
         position: 'relative',
+        minWidth: 0,
       }}>
         <div className="tracks-grid" style={{
           display: 'grid',
           gridTemplateColumns: `200px repeat(${defaultDimensions.totalSteps}, ${defaultDimensions.stepWidth}px)`,
           gap: '1px',
-          backgroundColor: '#333',
+          width: '100%',
         }}>
           {/* Track Headers */}
           <div className="track-header" style={{
@@ -96,7 +101,8 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
             padding: '10px',
             position: 'sticky',
             left: 0,
-            zIndex: 1,
+            top: 0,
+            zIndex: 10,
             display: 'flex',
             flexDirection: 'column',
             gap: '10px',
@@ -127,13 +133,16 @@ export const Sequencer: React.FC<SequencerProps> = ({ song, onSongUpdate }) => {
             )}
           </div>
           
-          {/* Step Numbers */}
+          {/* Step Numbers (sticky top) */}
           {Array.from({ length: defaultDimensions.totalSteps }).map((_, i) => (
             <div key={i} className="step-header" style={{
-              backgroundColor: '#2a2a2a',
+              backgroundColor: currentStep === i ? '#444' : '#2a2a2a',
               padding: '10px',
               textAlign: 'center',
               fontSize: '12px',
+              position: 'sticky',
+              top: 0,
+              zIndex: 2,
             }}>
               {i + 1}
             </div>

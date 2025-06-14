@@ -27,6 +27,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
         gap: '8px',
         position: 'sticky',
         left: 0,
+        top: 0,
         zIndex: 0,
       }}>
         <div style={{ flex: 1 }}>{track.name}</div>
@@ -72,6 +73,17 @@ export const TrackRow: React.FC<TrackRowProps> = ({
       {Array.from({ length: dimensions.totalSteps }).map((_, step) => {
         const hasNote = track.sequence.some(note => note.step === step);
         const isCurrentStep = step === currentStep;
+        const handleCellClick = () => {
+          if (track.instrumentType !== 'sampler') return;
+
+          let newSeq;
+          if (hasNote) {
+            newSeq = track.sequence.filter(n => n.step !== step);
+          } else {
+            newSeq = [...track.sequence, { step, pitch: 60, velocity: 100, duration: 1 }];
+          }
+          onTrackUpdate({ sequence: newSeq });
+        };
 
         return (
           <div
@@ -85,13 +97,14 @@ export const TrackRow: React.FC<TrackRowProps> = ({
               alignItems: 'center',
               justifyContent: 'center',
             }}
+            onClick={handleCellClick}
           >
             {hasNote && (
               <div
                 style={{
                   width: '80%',
                   height: '80%',
-                  backgroundColor: '#666',
+                  backgroundColor: track.color || '#666',
                 }}
               />
             )}

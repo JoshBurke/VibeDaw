@@ -32,6 +32,7 @@ export const TEST_SYNTH_TRACK: Track = {
   sequence: SYNTH_MELODY,
   mute: false,
   solo: false,
+  color: '#CC8888'
 };
 
 export const TEST_SAMPLER_TRACK: Track = {
@@ -47,6 +48,7 @@ export const TEST_SAMPLER_TRACK: Track = {
   sequence: KICK_PATTERN,
   mute: false,
   solo: false,
+  color: '#8888CC'
 };
 
 export const TEST_SONG: Song = {
